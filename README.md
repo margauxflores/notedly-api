@@ -1,0 +1,2 @@
+# Notedly
+This is a project from the book [JavaScript Everywhere](https://www.jseverywhere.io/) by Adam D. Scott - which is an amazing book if you’re looking to improve your JavaScript skills and learning how to create your own API using [Express.js](https://expressjs.com/), [GraphQL](https://graphql.org/) and [MongoDB](https://www.mongodb.com/).
