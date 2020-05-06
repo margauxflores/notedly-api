@@ -6,6 +6,7 @@ const db = require('./db');
 const models = require('./models');
 const typeDefs = require('./schema');
 const resolvers = require('./resolvers');
+const jwt = require('jsonwebtoken');
 
 // Run the server on a port specified in our .env file or port 4000
 const port = process.env.PORT || 4000;
@@ -17,12 +18,29 @@ const app = express();
 // Connect to the databasedb.connect(DB_HOST);
 db.connect(DB_HOST);
 
+const getUser = token => {
+  if (token) {
+    try  {
+      // Return the user information from the token
+      return jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      throw new Error('Session invalid');
+    }
+  }
+};
+
 // Apollo Server setup
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: () => {
-    return { models };
+  context: ({ req }) => {
+    // Get the user token from the headers
+    const token = req.headers.authorization;
+    // Try to retrieve a user with the token
+    const user = getUser(token);
+    // For now, let's log the user to the console
+    console.log(user);
+    return { models, user };
   } 
 });
 
